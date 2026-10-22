@@ -24,6 +24,10 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.14
+      # Astro runs on Node, and needs a newer one than the runner's default.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - run: bun install --frozen-lockfile
       - run: bun install --frozen-lockfile --cwd site
       # Every page shows code only through a demo that runs it.
