@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/SirKettle/collection-fingerprint.git"
   },
-  "homepage": "https://github.com/SirKettle/collection-fingerprint#readme",
+  "homepage": "https://sirkettle.github.io/collection-fingerprint/",
   "bugs": {
     "url": "https://github.com/SirKettle/collection-fingerprint/issues"
   },
@@ -51,12 +51,13 @@
   "scripts": {
     "build": "bun run scripts/build.ts",
     "test": "bun test",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.examples.json",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.examples.json && tsc --noEmit -p site/src/demos",
     "api:report": "bun run scripts/build.ts --api-report",
     "lint:package": "publint && attw --pack . --profile esm-only --exclude-entrypoints ./styles.css",
     "check:consumer": "bun run scripts/check-consumer.ts",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check:docs": "bun run scripts/check-docs.ts"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"

@@ -7,6 +7,8 @@ itself, so every collection gets its own, and it stays the same each time you dr
 
 It is not device or browser fingerprinting: nothing here identifies anyone.
 
+**[Documentation and live demos](https://sirkettle.github.io/collection-fingerprint/)**
+
 - **Deterministic.** The same items always draw the same print, in any order, at any size.
 - **Honest.** Mark area is the item's weight, unknown values are drawn rather than dropped, and when
   there are more items than marks, the print says how many items each mark stands for.

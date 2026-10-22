@@ -1,3 +1,10 @@
+/**
+ * `@thirkettle/collection-fingerprint/react`: the canvas, legends, list and view switch, the
+ * `useFingerprint` hook that wires them together, and the built-in renderers.
+ *
+ * @packageDocumentation
+ * @module react
+ */
 export {
   FingerprintCanvas,
   type FingerprintCallouts,

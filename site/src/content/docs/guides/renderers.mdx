@@ -1,0 +1,44 @@
+---
+title: Renderers
+description: The built-in marks, and drawing marks of your own in SVG.
+sidebar:
+  order: 2
+---
+
+import Demo from "../../../components/Demo.astro";
+import BuiltInRenderers from "../../../demos/built-in-renderers.tsx";
+import builtInRenderers from "../../../demos/built-in-renderers.tsx?raw";
+import CustomRenderer from "../../../demos/custom-renderer.tsx";
+import customRenderer from "../../../demos/custom-renderer.tsx?raw";
+
+A renderer draws one mark. The package comes with two: `shapesRenderer`, the default, with five
+shapes, and `dotsRenderer`, where every mark is a dot and shape carries nothing. Pass the same
+renderer to the legends, so their swatches match the marks.
+
+<Demo code={builtInRenderers} file="built-in-renderers.tsx">
+  <BuiltInRenderers client:only="react" />
+</Demo>
+
+## Your own marks
+
+A renderer's `mark` draws one mark, centred on the origin, `node.size` across, with the ridge
+running along the x axis; the canvas positions and rotates it. Each mark arrives with its
+properties resolved:
+
+| `node.`                     | Holds                                                                                                             |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `color`                     | The colour dimension's colour, or `currentColor` when nothing drives colour                                       |
+| `shape`                     | The index of its category in the shape dimension (0, 1, 2, …); `0` when nothing drives shape; `null` when unknown |
+| `lightness`                 | 0 (faintest) to 1 along the lightness dimension, or `null`. `markOpacity(node)` turns it into an opacity          |
+| `categories`                | Its category in every encoded dimension, by dimension id                                                          |
+| `size`, `weight`, `itemIds` | Its footprint, summed weight and the items it stands for                                                          |
+
+Here every book is a spine, and the reading state is a band's position along it:
+
+<Demo code={customRenderer} file="custom-renderer.tsx">
+  <CustomRenderer client:only="react" />
+</Demo>
+
+A renderer can also return SVG `defs` once per drawing (gradients, patterns), receiving an
+`idPrefix` to keep its ids unique on the page. Marks are memoised, so a renderer must depend on its
+props alone.
