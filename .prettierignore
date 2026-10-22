@@ -1,2 +1,5 @@
 api/
 CHANGELOG.md
+site/dist/
+site/.astro/
+site/src/content/docs/reference/

@@ -175,6 +175,4 @@ export interface UseFingerprintOptions {
     views?: readonly FingerprintView[];
 }
 
-// (No @packageDocumentation comment for this package)
-
 ```

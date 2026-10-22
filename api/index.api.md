@@ -179,6 +179,4 @@ export const UNKNOWN_CATEGORY_ID = "~unknown";
 // @public
 export const UNKNOWN_COLOR = "#b8bcc4";
 
-// (No @packageDocumentation comment for this package)
-
 ```

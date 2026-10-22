@@ -1,0 +1,48 @@
+---
+title: Getting started
+description: Install the package and draw your first fingerprint.
+sidebar:
+  order: 1
+---
+
+import Demo from "../../components/Demo.astro";
+import FirstFingerprint from "../../demos/first-fingerprint.tsx";
+import firstFingerprint from "../../demos/first-fingerprint.tsx?raw";
+
+## Install
+
+```sh
+npm install @thirkettle/collection-fingerprint
+```
+
+`react` (18 or 19) is a peer dependency, and the only one: your app provides it. The package is
+ESM only.
+
+## Your first fingerprint
+
+Everything below is one file: one dimension (genre), six books, one of them with no genre.
+
+<Demo code={firstFingerprint} file="first-fingerprint.tsx">
+  <FirstFingerprint client:only="react" />
+</Demo>
+
+- **`useFingerprint`** lays the items out and holds the selection. Its `canvasProps` carry the
+  layout, its description, the selection and the unit; `legendProps(group)` carries one legend
+  group and the same selection. Choose a legend entry or a mark and both follow.
+- **The unknown book** is drawn, last, in a category of its own. Nothing is dropped.
+- **The faint ridges** show while a collection is too small for its marks alone to read as a
+  fingerprint, and fade as it fills.
+
+The canvas is an SVG that fills its container's width. The stylesheet is optional: it styles the
+legend, the list and the view switch, and everything works without it.
+
+Treat the items array as immutable: the layout caches work against the array you pass, so a changed
+collection should be a new array, as React state usually is.
+
+## Next
+
+- [Data and encodings](/collection-fingerprint/guides/data-and-encodings/): dimensions, views, and
+  showing several properties at once.
+- [Renderers](/collection-fingerprint/guides/renderers/): the built-in marks, and drawing your own.
+- [Large collections and motion](/collection-fingerprint/guides/large-collections-and-motion/):
+  the mark cap, gliding between views, and the ridges.

@@ -1,0 +1,37 @@
+---
+title: Large collections and motion
+description: The mark cap, how marks stand for several items, gliding between views, and the ridges.
+sidebar:
+  order: 3
+---
+
+import Demo from "../../../components/Demo.astro";
+import LargeCollections from "../../../demos/large-collections.tsx";
+import largeCollections from "../../../demos/large-collections.tsx?raw";
+
+## The mark cap
+
+At most about `maxMarks` marks are drawn (600 by default). Above that, neighbouring items that agree
+on every encoded dimension share a mark, `layout.itemsPerMark` says how many, and the description
+says so too. Nothing is sampled away: every item is in exactly one mark, and a mark never mixes
+categories.
+
+Try 30,000 books below. The layout stays fast, and the print looks like the 600-book one, because
+it is drawn with the same number of marks.
+
+<Demo code={largeCollections} file="large-collections.tsx">
+  <LargeCollections client:only="react" />
+</Demo>
+
+## Motion
+
+Marks glide to their new places between views while there are at most `motion.glide` of them (800)
+and recolour gently up to `motion.fade` (400). Above those they change at once, because SVG cannot
+animate more marks smoothly. Under `prefers-reduced-motion` nothing animates. Pass
+`motion={{ glide: 0, fade: 0 }}` to turn it off.
+
+## Ridges
+
+The faint ridges show while a collection is too small for its marks alone to read as a fingerprint
+(`show: "auto"`, fading from 60 items to 160), and `ridges={{ show: "always" }}` or `"never"`
+overrides that. Their `opacity`, `color` and `width` are yours to set too.

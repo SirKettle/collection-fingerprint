@@ -1,0 +1,74 @@
+---
+title: Data and encodings
+description: Items, dimensions and categories; which dimension drives colour, shape and lightness; views, selection and callouts.
+sidebar:
+  order: 1
+---
+
+import Demo from "../../../components/Demo.astro";
+import CombinedView from "../../../demos/combined-view.tsx";
+import combinedView from "../../../demos/combined-view.tsx?raw";
+import { Code } from "@astrojs/starlight/components";
+import library from "../../../demos/library.ts?raw";
+
+## Items and dimensions
+
+An **item** is one thing in the collection: a unique, stable `id`, an optional `weight` (mark area
+is proportional to it; the default is 1), and its category in each dimension, by id, in `values`.
+
+A **dimension** is one way of grouping the items: an `id`, a `label` and its `categories` in the
+order you want them drawn. A category can carry its own `color` and an `href`. Mark a dimension
+`ordered: true` when its categories run in a meaningful order, such as decades or sizes.
+
+A value that is `null`, missing, or not one of the dimension's categories is **unknown**. Unknown
+items are drawn, last, in their own category, labelled by the dimension's `unknownLabel`.
+
+The demos on this site share one made-up library:
+
+<Code code={library.trimEnd()} lang="ts" title="library.ts" />
+
+## Encodings
+
+One dimension **arranges** the marks: it orders them along the ridges, so its categories form runs
+from the core outwards. **Colour**, **shape** and **lightness** can each show a dimension too, so one
+print can show three things at once:
+
+- leave `color` and `shape` out and they follow `arrange`; set one to `null` to turn it off;
+- **lightness needs an ordered dimension**: the first category is faintest. On unordered categories,
+  fainter and stronger would read as less and more, so that is an error;
+- colour stays distinguishable to about 10 categories and the default shapes to 5; beyond those,
+  `layout.warnings` says so;
+- size is never an encoding: mark area is reserved for weight.
+
+## Views, selection and callouts
+
+A **view** is a named encoding. With several, `FingerprintViewSwitch` moves between them: marks
+glide to their new places and the ridges stay put, because the print's form comes from all the data,
+not the view.
+
+A selection is a category _of a dimension_, so choosing "Unread" in the reading-state legend picks
+out unread books whatever their genre. Choose it again to clear.
+
+`annotations` pin short notes to the print. You write the words; the canvas points a leader at a real
+mark of the categories you name, and drops a note whose categories have no mark. Callouts sit beside
+the print in a wide container and are numbered beneath it in a narrow one.
+
+<Demo code={combinedView} file="combined-view.tsx">
+  <CombinedView client:only="react" />
+</Demo>
+
+## Without React
+
+`layoutFingerprint({ items, dimensions, encoding })` is the whole layout as plain data, with no
+React: positioned `nodes`, one of `legends` per encoded dimension, and the `ridges` as polylines, in
+a fixed `width` × `height` frame. It throws `FingerprintDataError` on data it cannot draw truthfully;
+`useFingerprint` returns that as `error` instead. See the
+[API reference](/collection-fingerprint/reference/).
+
+## The print's form
+
+Fingerprints come in three patterns: **loop**, **whorl** and **arch**. `formFromItems`, which
+`useFingerprint` uses, picks one from the data (an arch under 12 items, a loop when one category of
+the first dimension holds 40% or more, otherwise a whorl) and places the core from the other
+dimensions. It changes in coarse steps, so a collection keeps its print as it grows by an item or
+two. Pass `form` to override any part of it.
